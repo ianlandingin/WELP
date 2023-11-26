@@ -57,10 +57,14 @@ APP.get("/api/v1/restaurants/:restaurant_id", async (request, response) => {
 APP.post("/api/v1/restaurants", async (request, response) => {
   try {
     console.log(request.body);
+    const result = await client.query(
+      "INSERT INTO restaurants (name, location, price_range) VALUES ( $1, $2, $3) RETURNING *",
+      [request.body.name, request.body.location, request.body.price_range]
+    );
     response.status(200).json({
-      status: "success",
+      status: "Success",
       data: {
-        restaurant: "Shakey's",
+        restaurant: result.rows,
       },
     });
   } catch (error) {
