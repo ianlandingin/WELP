@@ -95,9 +95,13 @@ APP.put("/api/v1/restaurants/:restaurant_id", async (request, response) => {
 // Delete a restaurant
 APP.delete("/api/v1/restaurants/:restaurant_id", async (request, response) => {
   try {
-    console.log(request.params);
+    const results = await client.query(
+      "DELETE FROM restaurants WHERE id = $1 RETURNING *",
+      [request.params.restaurant_id]
+    );
     response.status(204).json({
       status: "success",
+      deleted_restaurant: results.rows,
     });
   } catch (error) {
     response.status(500).send(error.message);
