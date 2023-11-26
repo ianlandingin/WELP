@@ -45,7 +45,7 @@ APP.get("/api/v1/restaurants/:restaurant_id", async (request, response) => {
     );
     response.status(200).json({
       results: results.rows.length,
-      restaurants: results.rows[0],
+      data: { restaurants: results.rows[0] },
     });
     // console.log(request.params.restaurant_id);
   } catch (error) {
@@ -56,16 +56,13 @@ APP.get("/api/v1/restaurants/:restaurant_id", async (request, response) => {
 // Add a restaurant to database
 APP.post("/api/v1/restaurants", async (request, response) => {
   try {
-    console.log(request.body);
-    const result = await client.query(
+    const results = await client.query(
       "INSERT INTO restaurants (name, location, price_range) VALUES ( $1, $2, $3) RETURNING *",
       [request.body.name, request.body.location, request.body.price_range]
     );
     response.status(200).json({
       status: "Success",
-      data: {
-        restaurant: result.rows,
-      },
+      data: { restaurant: results.rows[0] },
     });
   } catch (error) {
     response.status(500).send(error.message);
@@ -75,12 +72,19 @@ APP.post("/api/v1/restaurants", async (request, response) => {
 // Update restaurant details
 APP.put("/api/v1/restaurants/:restaurant_id", async (request, response) => {
   try {
-    console.log(request.params);
-    console.log(request.body);
+    const results = await client.query(
+      "UPDATE restaurants SET name = $2, location = $3, price_range = $4 WHERE id = $1 RETURNING *",
+      [
+        request.params.restaurant_id,
+        request.body.name,
+        request.body.location,
+        request.body.price_range,
+      ]
+    );
     response.status(200).json({
-      status: "success",
+      status: "Success",
       data: {
-        restaurant: "Shakey's",
+        restaurant: results.rows,
       },
     });
   } catch (error) {
