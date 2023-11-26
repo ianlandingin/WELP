@@ -26,13 +26,10 @@ APP.use(express.json());
 // GET all restaurants
 APP.get("/api/v1/restaurants", async (request, response) => {
   try {
-    await client.query(`SELECT * FROM restaurants`, (err, res) => {
-      if (!err) {
-        response.status(200).json(res.rows);
-      } else {
-        response.status(500).send(err.message);
-      }
-      client.end();
+    const results = await client.query("SELECT * FROM restaurants");
+    response.status(200).json({
+      results: results.rows.length,
+      restaurants: results.rows,
     });
   } catch (error) {
     response.status(500).send(error.message);
@@ -42,18 +39,14 @@ APP.get("/api/v1/restaurants", async (request, response) => {
 // Get a restaurant
 APP.get("/api/v1/restaurants/:restaurant_id", async (request, response) => {
   try {
-    await client.query(
-      `SELECT * FROM restaurants WHERE id=${request.params.restaurant_id} LIMIT 1`,
-      (err, res) => {
-        if (!err) {
-          console.log(res.rows[0]);
-          response.status(200).send(res.rows[0]);
-        } else {
-          response.status(500).send(err.message);
-        }
-        client.end();
-      }
+    const results = await client.query(
+      "SELECT * FROM restaurants WHERE id=$1 LIMIT 1",
+      [request.params.restaurant_id]
     );
+    response.status(200).json({
+      results: results.rows.length,
+      restaurants: results.rows[0],
+    });
     // console.log(request.params.restaurant_id);
   } catch (error) {
     response.status(500).send(error.message);
