@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import morgan from "morgan";
+import client from "./db/index.js";
 
 const env = dotenv.config();
 const APP = express();
@@ -25,9 +26,13 @@ APP.use(express.json());
 // GET all restaurants
 APP.get("/api/v1/restaurants", async (request, response) => {
   try {
-    response.status(200).json({
-      name: "Shakey's",
-      location: "Malate",
+    await client.query(`SELECT * FROM restaurants`, (err, res) => {
+      if (!err) {
+        response.status(200).json(res.rows);
+      } else {
+        response.status(500).send(err.message);
+      }
+      client.end();
     });
   } catch (error) {
     response.status(500).send(error.message);
@@ -35,14 +40,21 @@ APP.get("/api/v1/restaurants", async (request, response) => {
 });
 
 // Get a restaurant
-APP.get("/api/v1/restaurants/:restaurant_id", (request, response) => {
+APP.get("/api/v1/restaurants/:restaurant_id", async (request, response) => {
   try {
-    console.log(request.params);
-    console.log(request.body);
-    response.status(200).json({
-      name: "Tropical Hut",
-      location: "Malate",
-    });
+    await client.query(
+      `SELECT * FROM restaurants WHERE id=${request.params.restaurant_id} LIMIT 1`,
+      (err, res) => {
+        if (!err) {
+          console.log(res.rows[0]);
+          response.status(200).send(res.rows[0]);
+        } else {
+          response.status(500).send(err.message);
+        }
+        client.end();
+      }
+    );
+    // console.log(request.params.restaurant_id);
   } catch (error) {
     response.status(500).send(error.message);
   }
@@ -51,7 +63,6 @@ APP.get("/api/v1/restaurants/:restaurant_id", (request, response) => {
 // Add a restaurant to database
 APP.post("/api/v1/restaurants", async (request, response) => {
   try {
-    console.log(request.params);
     console.log(request.body);
     response.status(200).json({
       status: "success",
