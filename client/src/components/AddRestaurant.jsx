@@ -5,8 +5,8 @@ const AddRestaurant = () => {
   return (
     <div className="mb-4">
       <form action="">
-        <div className="form-row d-grid">
-          <div className="col-md-5 col-sm-12 px-1">
+        <div className="form-row row">
+          <div className="col-lg-5 col-md-4 col-sm-12 px-1">
             <input
               type="text"
               name=""
@@ -15,7 +15,7 @@ const AddRestaurant = () => {
               placeholder="name"
             />
           </div>
-          <div className="col-md-5 col-sm-12 px-1">
+          <div className="col-lg-5 col-md-4 col-sm-12 px-1">
             <input
               type="text"
               name=""
@@ -24,8 +24,8 @@ const AddRestaurant = () => {
               placeholder="location"
             />
           </div>
-          <div className="col-md-2 col-sm-12 px-1 d-flex justify-content-between">
-            <select name="" id="" className="custom-select my-1 mr-sm-2 px-1">
+          <div className="col-lg-2 col-md-4 col-sm-12 px-1 d-flex justify-content-around">
+            <select name="" id="" className="custom-select mr-sm-2 px-1">
               <option disabled>Price Range</option>
               <option value="1">$</option>
               <option value="2">$$</option>
@@ -33,7 +33,7 @@ const AddRestaurant = () => {
               <option value="4">$$$$</option>
               <option value="5">$$$$$</option>
             </select>
-            <button type="button" className="btn btn-primary ">
+            <button type="button" className="btn btn-primary">
               Add
             </button>
           </div>
