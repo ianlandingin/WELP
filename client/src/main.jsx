@@ -1,9 +1,14 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
+// eslint-disable-next-line no-unused-vars
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+import { BrowserRouter as Router } from "react-router-dom";
+import { RestaurantContextProvider } from "./context/RestaurantsContext";
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-)
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <RestaurantContextProvider>
+    <Router>
+      <App />
+    </Router>
+  </RestaurantContextProvider>
+);
