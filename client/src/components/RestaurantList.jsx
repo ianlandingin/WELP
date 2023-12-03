@@ -10,8 +10,7 @@ const RestaurantList = (props) => {
     const fetchRestaurantData = async () => {
       await RestaurantFinder.get("/")
         .then((response) => {
-          console.log(response.data.restaurants);
-          setRestaurants(response.data.restaurants);
+          setRestaurants(response?.data?.restaurants);
         })
         .catch((error) => console.log(error));
     };
@@ -40,7 +39,7 @@ const RestaurantList = (props) => {
                   <td>{restaurant?.name}</td>
                   <td>{restaurant?.location}</td>
                   <td>{"$".repeat(restaurant?.price_range)}</td>
-                  <td>Rating</td>
+                  <td>Reviews</td>
                   <td>
                     <button type="button" className="btn btn-warning">
                       Update
