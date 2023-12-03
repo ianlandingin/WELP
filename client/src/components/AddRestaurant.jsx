@@ -46,7 +46,7 @@ const AddRestaurant = () => {
                 name=""
                 id=""
                 className="form-control"
-                placeholder="name"
+                placeholder="Name"
               />
             </div>
             <div className="col-lg-5 col-md-4 col-sm-12 px-1">
@@ -57,7 +57,7 @@ const AddRestaurant = () => {
                 name=""
                 id=""
                 className="form-control"
-                placeholder="location"
+                placeholder="Location"
               />
             </div>
             <div className="col-lg-2 col-md-4 col-sm-12 px-1 d-flex justify-content-around">
