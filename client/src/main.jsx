@@ -8,7 +8,9 @@ import { RestaurantContextProvider } from "./context/RestaurantsContext";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <RestaurantContextProvider>
     <Router>
-      <App />
+      <div className="container">
+        <App />
+      </div>
     </Router>
   </RestaurantContextProvider>
 );
