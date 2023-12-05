@@ -24,7 +24,7 @@ ROUTER.get("/:restaurant_id", async (request, response) => {
     );
     response.status(200).json({
       results: results.rows.length,
-      data: { restaurants: results.rows[0] },
+      restaurant: results.rows[0],
     });
     // console.log(request.params.restaurant_id);
   } catch (error) {
@@ -41,7 +41,7 @@ ROUTER.post("/", async (request, response) => {
     );
     response.status(200).json({
       status: "Success",
-      data: { restaurant: results.rows[0] },
+      restaurant: results.rows[0],
     });
   } catch (error) {
     response.status(500).send(error.message);
@@ -62,9 +62,7 @@ ROUTER.put("/:restaurant_id", async (request, response) => {
     );
     response.status(200).json({
       status: "Success",
-      data: {
-        restaurant: results.rows,
-      },
+      restaurant: results.rows,
     });
   } catch (error) {
     response.status(500).send(error.message);
