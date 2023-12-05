@@ -2,10 +2,12 @@
 import React, { useEffect, useContext } from "react";
 import RestaurantFinder from "../APIs/RestaurantsFinder";
 import { RestaurantContext } from "../context/RestaurantsContext";
+import { useNavigate } from "react-router-dom";
 
 // eslint-disable-next-line no-unused-vars
 const RestaurantList = (props) => {
   const { restaurants, setRestaurants } = useContext(RestaurantContext);
+  let navigate = useNavigate();
   useEffect(() => {
     const fetchRestaurantData = async () => {
       await RestaurantFinder.get("/")
@@ -18,7 +20,8 @@ const RestaurantList = (props) => {
     fetchRestaurantData();
   }, [setRestaurants]);
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (e, id) => {
+    e.stopPropagation();
     await RestaurantFinder.delete(`/${id}`)
       .then((response) => {
         setRestaurants(
@@ -29,6 +32,11 @@ const RestaurantList = (props) => {
         console.log(response);
       })
       .catch((error) => console.log(error));
+  };
+
+  const handleUpdate = (e, id) => {
+    e.stopPropagation();
+    navigate(`/restaurants/${id}/update`);
   };
 
   return (
@@ -48,19 +56,28 @@ const RestaurantList = (props) => {
           {restaurants ? (
             restaurants.map((restaurant) => {
               return (
-                <tr key={restaurant?.id}>
+                <tr
+                  key={restaurant?.id}
+                  onClick={() => {
+                    navigate(`/restaurants/${restaurant?.id}`);
+                  }}
+                >
                   <td>{restaurant?.name}</td>
                   <td>{restaurant?.location}</td>
                   <td>{"$".repeat(restaurant?.price_range)}</td>
                   <td>Reviews</td>
                   <td>
-                    <button type="button" className="btn btn-warning">
+                    <button
+                      onClick={(e) => handleUpdate(e, restaurant?.id)}
+                      type="button"
+                      className="btn btn-warning"
+                    >
                       Update
                     </button>
                   </td>
                   <td>
                     <button
-                      onClick={() => handleDelete(restaurant?.id)}
+                      onClick={(e) => handleDelete(e, restaurant?.id)}
                       type="button"
                       className="btn btn-danger"
                     >
