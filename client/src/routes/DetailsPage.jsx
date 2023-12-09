@@ -3,7 +3,7 @@ import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import RestaurantFinder from "../APIs/RestaurantsFinder";
 import { RestaurantContext } from "../context/RestaurantsContext";
-
+import StarRating from "../components/StarRating";
 
 const DetailsPage = () => {
   const { id } = useParams();
@@ -35,6 +35,7 @@ const DetailsPage = () => {
       ) : (
         <>
           <h1 className="text-center">{selectedRestaurant?.name}</h1>
+          <StarRating rating={3.3} />
         </>
       )}
     </>
