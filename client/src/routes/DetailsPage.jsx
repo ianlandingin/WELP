@@ -1,20 +1,22 @@
 // eslint-disable-next-line no-unused-vars
-import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+import { useParams } from "react-router-dom";
 import RestaurantFinder from "../APIs/RestaurantsFinder";
+import { RestaurantContext } from "../context/RestaurantsContext";
+
 
 const DetailsPage = () => {
   const { id } = useParams();
+  const { selectedRestaurant, setSelectedRestaurant } =
+    useContext(RestaurantContext);
   const [loading, setLoading] = useState(false);
-  const [name, setName] = useState("");
-  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
     const fetchRestaurantData = async () => {
       await RestaurantFinder.get(`/${id}`)
         .then((response) => {
-          setName(response?.data?.restaurant?.name);
+          setSelectedRestaurant(response?.data.restaurant);
           setLoading(false);
         })
         .catch((error) => {
@@ -24,15 +26,18 @@ const DetailsPage = () => {
     };
 
     fetchRestaurantData();
-  }, [id]);
+  }, [id, setSelectedRestaurant]);
+
   return (
-    <div>
+    <>
       {loading ? (
         <h1 className="text-center">Loading...</h1>
       ) : (
-        <h1 className="text-center">{name}</h1>
+        <>
+          <h1 className="text-center">{selectedRestaurant?.name}</h1>
+        </>
       )}
-    </div>
+    </>
   );
 };
 
