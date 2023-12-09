@@ -39,6 +39,10 @@ const RestaurantList = (props) => {
     navigate(`/restaurants/${id}/update`);
   };
 
+  const handleRestaurantClick = (id) => {
+    navigate(`/restaurants/${id}`);
+  };
+
   return (
     <div className="list-group">
       <table className="table table-hover table-striped">
@@ -59,7 +63,7 @@ const RestaurantList = (props) => {
                 <tr
                   key={restaurant?.id}
                   onClick={() => {
-                    navigate(`/restaurants/${restaurant?.id}`);
+                    handleRestaurantClick(restaurant?.id);
                   }}
                 >
                   <td>{restaurant?.name}</td>
