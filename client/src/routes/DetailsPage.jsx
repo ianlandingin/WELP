@@ -3,7 +3,8 @@ import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import RestaurantFinder from "../APIs/RestaurantsFinder";
 import { RestaurantContext } from "../context/RestaurantsContext";
-import StarRating from "../components/StarRating";
+import Reviews from "../components/Reviews";
+import AddReview from "../components/AddReview";
 
 const DetailsPage = () => {
   const { id } = useParams();
@@ -33,10 +34,16 @@ const DetailsPage = () => {
       {loading ? (
         <h1 className="text-center">Loading...</h1>
       ) : (
-        <>
-          <h1 className="text-center">{selectedRestaurant?.name}</h1>
-          <StarRating rating={3.3} />
-        </>
+        <div>
+          {selectedRestaurant && (
+            <>
+              <div className="mt-3">
+                <Reviews />
+              </div>
+              <AddReview />
+            </>
+          )}
+        </div>
       )}
     </>
   );
